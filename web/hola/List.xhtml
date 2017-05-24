@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListHolaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListHolaEmpty}" rendered="#{holaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{holaController.items.rowCount > 0}">
+                    <h:outputText value="#{holaController.pagination.pageFirstItem + 1}..#{holaController.pagination.pageLastItem + 1}/#{holaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{holaController.previous}" value="#{bundle.Previous} #{holaController.pagination.pageSize}" rendered="#{holaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{holaController.next}" value="#{bundle.Next} #{holaController.pagination.pageSize}" rendered="#{holaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{holaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHolaTitle_idHOLA}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idHOLA}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHolaTitle_eliminar}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.eliminar}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHolaTitle_nombre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombre}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{holaController.prepareView}" value="#{bundle.ListHolaViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{holaController.prepareEdit}" value="#{bundle.ListHolaEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{holaController.destroy}" value="#{bundle.ListHolaDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{holaController.prepareCreate}" value="#{bundle.ListHolaCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListHolaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
